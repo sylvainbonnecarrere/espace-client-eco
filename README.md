@@ -1,6 +1,12 @@
 # 🌿 Espace Client Éco (Proof Of Concept)
 
-Bienvenue sur la démonstration technique **"Espace Client Éco"**. Ce projet illustre une architecture moderne de portail client hybride conçue pour allier des performances de très haut niveau, une fluidité de type SPA (Single Page Application) et des standards de sécurité "Enterprise".
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=flat-square&logo=vuedotjs&logoColor=%234FC08D)
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=flat-square&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=flat-square&logo=laravel&logoColor=white)
+![Blade](https://img.shields.io/badge/blade-%23FF2D20.svg?style=flat-square&logo=laravel&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)
+
+Bienvenue sur la démonstration technique **"Espace Client Éco"**. Ce projet illustre une architecture moderne de portail client hybride conçue pour allier des performances haut niveau, une fluidité de type SPA (Single Page Application) et des standards de sécurité Entreprise avec notamment le MFA/2FA (TOTP).
 
 ## 🚀 La Stack Technologique
 
@@ -56,6 +62,14 @@ php artisan serve
 npm run dev
 php artisan queue:work
 ```
+5. **Vérifications et Audit Qualité (Validation 100%) :**
+L'application est couverte par une suite de tests automatisés validant son fonctionnement et sa sécurité de manière absolue (Tests Pest, Vitest et Linting). Vous pouvez les exécuter via ces trois commandes de base :
+```bash
+php artisan test
+npm run test:unit
+composer run ci:check
+```
+> 👉 Pour le protocole complet, consultez la documentation détaillée des tests : [tests/TESTING.md](tests/TESTING.md)
 
 ## 📜 Documentation API
 La documentation interactive des APIs est générée avec Scribe et disponible avec Exemples dynamiques sur le chemin `/docs` (requiert le serveur allumé).
