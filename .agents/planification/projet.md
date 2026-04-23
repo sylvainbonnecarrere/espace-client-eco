@@ -97,7 +97,7 @@ Relations Eloquent fonctionnelles (ex: $user->contracts).
 2.1. API REST pour les Contrats
 Objectif : Créer une API CRUD pour gérer les contrats.
 
-Stack : Laravel (API Resources, Validation), Vue.js (Axios).
+Stack : Laravel (API Resources, Validation), Vue.js (Fetch API / VueUse).
 
 
   
@@ -130,8 +130,8 @@ Stack : Laravel (API Resources, Validation), Vue.js (Axios).
     
     
       2.1.5. Frontend : Liste des contrats
-      - Afficher les contrats dans un tableau Vue.js avec Axios pour récupérer les données.
-      Exemple : const contracts = ref([]); onMounted(async () => { contracts.value = (await axios.get('/api/contracts')).data; });
+      - Afficher les contrats dans un tableau Vue.js avec Fetch API (ou useFetch de VueUse) pour récupérer les données.
+      Exemple : const { data: contracts } = await useFetch('/api/contracts').json();
     
   
 
@@ -274,6 +274,11 @@ Stack : Laravel (Middleware, Validation), CORS.
       4.1.3. Rate Limiting
       - Ajouter dans routes/api.php : Route::middleware('throttle:60,1')->group(...);.
       Explication : Limite le nombre de requêtes par minute pour éviter les attaques par force brute.
+    
+    
+      4.1.4. Authentification 2FA / MFA (Fortify + Vue.js)
+      - Activer la feature TwoFactorAuthentication dans config/fortify.php et implémenter les vues (QR Code, Recovery Codes) en Vue.js.
+      Explication : L'architecture sélectionnée utilise Fortify comme moteur (génération TOTP/Clés de secours) et Inertia pour l'affichage frontal. Cela renforce drastiquement la sécurité de l'espace client.
     
   
 
@@ -453,9 +458,9 @@ Vue.js
       const authStore = useAuthStore();.
     
     
-      Axios
-      Requêtes HTTP vers l’API.
-      axios.get('/api/contracts', { headers: { Authorization: Bearer ${token} } });.
+      Fetch API / VueUse
+      Requêtes HTTP vers l'API sans librairie tierce lourde.
+      const { data } = await useFetch('/api/contracts', { headers: { Authorization: `Bearer ${token}` } }).json();.
     
     
       Chart.js
@@ -490,6 +495,11 @@ Sécurité
       Rate Limiting
       Limite le nombre de requêtes par IP.
       Route::middleware('throttle:60,1').
+    
+    
+      2FA / MFA
+      Double Authentification TOTP.
+      Moteur Fortify (TwoFactorAuthenticatable) + QR Codes (Vue.js).
     
   
 

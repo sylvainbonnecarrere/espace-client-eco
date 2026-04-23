@@ -14,6 +14,14 @@ class Contract extends Model
     /** @use HasFactory<\Database\Factories\ContractFactory> */
     use HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'date',
+            'end_date' => 'date',
+        ];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

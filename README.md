@@ -1,37 +1,63 @@
-# Espace Client Éco 🌿
+# 🌿 Espace Client Éco (Proof Of Concept)
 
-Ce projet est une application web full-stack développée dans le but de s'entraîner et de maîtriser un environnement de développement moderne : le backend Laravel et le frontend Vue.js. Il s'agit d'un "Espace Client" permettant la visualisation de contrats d'énergie et de l'historique de consommation.
+Bienvenue sur la démonstration technique **"Espace Client Éco"**. Ce projet illustre une architecture moderne de portail client hybride conçue pour allier des performances de très haut niveau, une fluidité de type SPA (Single Page Application) et des standards de sécurité "Enterprise".
 
-## 🛠️ Stack Technique
+## 🚀 La Stack Technologique
 
-* **Backend :** Laravel 11/13.x (API REST, Eloquent ORM, Migrations).
-* **Frontend :** Vue.js 3 (Composition API) propulsé par Inertia.js et stylisé avec Tailwind CSS.
-* **Base de données :** MySQL 8.0 tournant de manière isolée sur Docker.
-* **Outils Locaux :** Docker Compose sécurisé, Vite.js (HMR), et Pest PHP pour les futurs tests.
+- **Architecture :** Monolithe Hybride découplé
+- **Backend :** Laravel 13 (PHP 8.4) avec Strict Types
+- **Frontend :** Vue.js 3 avec Composition API et **Inertia.js**
+- **UI / UX :** Tailwind CSS v4 (Interface "Dashboard Cartes" Premium)
+- **Data Fetching (Vue) :** VueUse `useFetch()`
+- **Authentification :** Laravel Fortify (Headless MFA/2FA) + Laravel Sanctum (Tokens JWT API). Face aux fuites massives de données touchant de grands groupes et nombre de PME en 2026, **le MFA (TOTP) est rendu incontournable** pour toute mise en production d'Espace Client afin de prévenir le credential stuffing.
+- **Moteur Asynchrone :** Redis (Cache et Queues)
 
-## 🚀 Démarrage Rapide (Environnement local)
+> 🔬 **Documentation des tests & Assurance Qualité :** Consultez le document [tests/TESTING.md](tests/TESTING.md) pour les détails cruciaux d'audit et la validation 100% de la suite PEST / Vitest / E2E.
 
-1. **Cloner le projet** et entrer dans le dossier `espace_client_eco`.
-2. **Installer les dépendances :**
-   ```bash
-   composer install && npm install
-3. **Configurer l'environnement** : Copiez .env.example vers .env et assurez-vous que vos identifiants MySQL correspondent :
-env
+## 📌 Fonctionnalités Clés Implémentées
+
+### 1. 🔒 Sécurité et Authentification
+- Connexion classique (Email/Mot de passe).
+- **MFA / 2FA :** Double authentification TOTP configurable via le profil utilisateur (Fortify).
+- **Hardening :** `throttle:api` sur tous les endpoints pour bloquer le bruteforce, et protection CSRF via le pont Inertia.
+
+### 2. 📊 API et Visualisation
+- Affichage des contrats énergétiques de l'utilisateur.
+- Chargement différé (Lazy Loading asynchrone) des données de consommation d'un contrat donné.
+- Représentation graphique des consommations via **Chart.js** injectée dans le composant météo `ConsumptionsChart.vue`.
+
+### 3. ⚡ Passage à l'échelle (Scaling)
+- **Caching Eloquent :** Les appels sur `/api/contracts` sont mis en cache via Redis avec invalidation intelligente (`Cache::forget`) dès la création d'un contrat.
+- **Asynchrone (Queues) :** La création d'un contrat délègue l'envoi d'emails au Worker Redis (`SendContractNotification`) limitant drastiquement le Time-To-First-Byte.
+
+### 4. 🎓 Qualité du Logiciel (TDD)
+- **Pest PHP** : Couverture sur l'authentification (MFA Challenge), le Cache Redis et les restrictions d'accès de l'API.
+- **Scribe** : Documentation OpenAPI autogénérée (disponible sur `/docs`).
+
+---
+
+## 🛠️ Installation et Lancement
+
+1. Clonez ce dépôt.
+2. Installez les dépendances Composer et NPM :
+```bash
+composer install
+npm install
+```
+3. Configurez votre environnement (`.env`) en vous assurant d'avoir une instance MySQL et Redis :
+```env
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3307
-DB_DATABASE=espace_client_eco
-DB_USERNAME=root
-DB_PASSWORD=password
-4. **Lancer la base de données** :
-bash
-docker-compose up -d
-(phpMyAdmin est disponible sur http://localhost:8080)
-5. **Générer la structure BDD et les fausses données** :
-bash
-php artisan migrate:fresh --seed
-6. **Démarrer les serveurs** (dans 2 terminaux séparés) :
-bash
-npm run dev
+QUEUE_CONNECTION=redis
+CACHE_STORE=redis
+```
+4. Lancez les serveurs de développement (Le backend, le frontend Vite, et le Worker) :
+```bash
 php artisan serve
-Accédez à l'application sur http://localhost:8000 !    
+npm run dev
+php artisan queue:work
+```
+
+## 📜 Documentation API
+La documentation interactive des APIs est générée avec Scribe et disponible avec Exemples dynamiques sur le chemin `/docs` (requiert le serveur allumé).
+
+> *Développé en tant que terrain de démonstration technique par Sylvain BONNECARRÈRE 2026*
