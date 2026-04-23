@@ -60,4 +60,4 @@ php artisan queue:work
 ## 📜 Documentation API
 La documentation interactive des APIs est générée avec Scribe et disponible avec Exemples dynamiques sur le chemin `/docs` (requiert le serveur allumé).
 
-> *Développé en tant que terrain de démonstration technique par Sylvain BONNECARRÈRE 2026*
+> *Développé en tant que terrain de démonstration technique par Sylvain BONNECARRÈRE en 2025. MAJ le 23/04/2026 2026*

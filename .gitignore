@@ -15,6 +15,7 @@
 /notes/
 /.gemini/
 AGENTS.md
+/.github/skills/
 .DS_Store
 .env
 .env.backup

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Contract;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,8 @@ class ContractFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
-            'reference' => 'ECO-' . $this->faker->unique()->numerify('######'),
+            'user_id' => User::factory(),
+            'reference' => 'ECO-'.$this->faker->unique()->numerify('######'),
             'start_date' => $this->faker->dateTimeBetween('-3 years', '-1 year'),
             'end_date' => $this->faker->boolean(20) ? $this->faker->dateTimeBetween('-11 months', 'now') : null,
             'amount' => $this->faker->randomFloat(2, 30, 150),

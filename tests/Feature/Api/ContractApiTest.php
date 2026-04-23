@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use App\Models\Contract;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
 test('un utilisateur non authentifié ne peut pas lister les contrats', function () {
     // 1. Arrange (Rien, aucun user)
-    
+
     // 2. Act
     $response = $this->getJson('/api/contracts');
 

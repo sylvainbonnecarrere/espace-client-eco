@@ -30,7 +30,7 @@ class SendContractNotification implements ShouldQueue
         // de réponse pour le navigateur de l'utilisateur.
 
         // Simulation de délai réseau
-        sleep(2); 
+        sleep(2);
 
         // Enregistrement dans les logs pour validation ("Mock" métier)
         Log::info("Le contrat {$this->contract->reference} a été créé avec succès pour l'utilisateur ID {$this->contract->user_id}. Email d'activation envoyé.");

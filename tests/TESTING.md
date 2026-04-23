@@ -24,8 +24,8 @@ npm run test:unit
 Pour un rapport 100% de validation globale avant mise en production (Analyses statiques + Tests) :
 
 ```bash
-# Lance le formatage, l'analyse des types et la suite [test]
-npm run ci:check
+# Lance le formatage, l'analyse des types et la suite [test] via les hooks Composer
+composer run ci:check
 ```
 
 *Note: La sécurité est le nerf de la guerre. Les tests couvrent spécifiquement notre mécanisme de Rate Limiting et la barrière Infranchissable (TDD) du `TwoFactorAuthenticationTest` qui prouve que l'accès Dashboard est strictement interdit sans code TOTP.*

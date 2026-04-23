@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Contracts\StoreContractRequest;
+use App\Http\Resources\ContractResource;
+use App\Jobs\SendContractNotification;
 use App\Models\Contract;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\ContractResource;
-use App\Http\Requests\Contracts\StoreContractRequest;
-use App\Jobs\SendContractNotification;
 
 class ContractController extends Controller
 {
     /**
      * @group Contrats
+     *
      * @authenticated
-     * 
+     *
      * Liste des contrats.
      * Récupère la liste paginée et paramétrée de l'ensemble des contrats de l'utilisateur.
      */
@@ -36,8 +36,9 @@ class ContractController extends Controller
 
     /**
      * @group Contrats
+     *
      * @authenticated
-     * 
+     *
      * Créer un contrat.
      * Enregistre un nouveau contrat énergétique lié à l'utilisateur courant.
      */
@@ -45,13 +46,13 @@ class ContractController extends Controller
     {
         // La validation est gérée par StoreContractRequest
         $contract = $request->user()->contracts()->create($request->validated());
-        
+
         // Invalidation du cache car une nouvelle donnée a été ajoutée
         Cache::forget("user:{$request->user()->id}:contracts");
 
         // Envoi asynchrone dans Redis pour ne pas bloquer l'utilisateur
         SendContractNotification::dispatch($contract);
-        
+
         return new ContractResource($contract);
     }
 

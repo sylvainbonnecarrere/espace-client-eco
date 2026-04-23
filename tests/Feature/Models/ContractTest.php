@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\Consumption;
 use App\Models\Contract;
 use App\Models\User;
-use App\Models\Consumption;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -25,7 +25,7 @@ test('a contract can have many consumptions', function () {
     // 1. Arrange
     $contract = Contract::factory()->create();
     $consumptions = Consumption::factory()->count(3)->create([
-        'contract_id' => $contract->id
+        'contract_id' => $contract->id,
     ]);
 
     // 2. Act

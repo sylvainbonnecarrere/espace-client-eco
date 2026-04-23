@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
-use App\Models\Contract;
 use App\Jobs\SendContractNotification;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Cache;
-use Laravel\Sanctum\Sanctum;
+use App\Models\Contract;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Queue;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
@@ -21,7 +21,7 @@ test('store a contract triggers the SendContractNotification job seamlessly', fu
     $payload = [
         'reference' => 'TEST-REDIS-1',
         'amount' => 55.50,
-        'start_date' => '2026-05-01'
+        'start_date' => '2026-05-01',
     ];
 
     // 2. Act
@@ -29,7 +29,7 @@ test('store a contract triggers the SendContractNotification job seamlessly', fu
 
     // 3. Assert
     $response->assertStatus(201);
-    
+
     // Vérifie que le Job asynchrone a bien été envoyé en file d'attente
     Queue::assertPushed(SendContractNotification::class, function ($job) {
         return $job->contract->reference === 'TEST-REDIS-1';
@@ -56,7 +56,7 @@ test('index contracts caches the response successfully', function () {
     $this->postJson('/api/contracts', [
         'reference' => 'CACHE-2-NEW',
         'amount' => 120,
-        'start_date' => '2026-05-01'
+        'start_date' => '2026-05-01',
     ])->assertStatus(201);
 
     // 5. Assert: The cache should be invalidated
